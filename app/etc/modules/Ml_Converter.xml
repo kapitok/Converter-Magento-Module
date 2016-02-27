@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ml_Converter>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ml_Converter>
+    </modules>
+</config>

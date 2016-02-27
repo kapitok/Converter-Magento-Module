@@ -1,0 +1,80 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: lbond
+ * Date: 27.02.16
+ * Time: 14:46
+ */
+/** @var $this Ml_Converter_Block_Form */
+?>
+<h1>Currencies converter</h1>
+
+<form id="converterForm" name="converterForm">
+    <?php echo $this->getBlockHtml('formkey') ?>
+    <fieldset>
+        <div class="currency-from-container">
+            <label for="currency_from"><?php echo $this->__('Chose currency #1, please!') ?></label>
+            <select class="validate-select" id="currency_from" name="currency_from">
+                <?php foreach ($this->getCurrencies() as $currency): ?>
+                    <option><?php echo $currency ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="currency-to-container">
+            <label for="currency_to"><?php echo $this->__('Chose currency #2, please!') ?></label>
+            <select class="validate-select" id="currency_to" name="currency_to">
+                <?php foreach ($this->getCurrencies() as $currency): ?>
+                    <option><?php echo $currency ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="amount-container">
+            <label for="amount"><?php echo $this->__('Amount') ?></label>
+            <input type="text" class="required-entry" id="amount" name="amount" value=""/>
+        </div>
+    </fieldset>
+
+    <input type="submit" value="<?php echo $this->__('Convert') ?>" />
+    <span id="formLoader" style="display:none;">Form Loading...</span>
+</form>
+<div id="formSuccess" style="display:none;">
+
+</div>
+
+<script type="text/javascript">
+
+    //<![CDATA[
+    var formId = 'converterForm';
+    var converterForm = new VarienForm(formId, true);
+
+    var postUrl = '<?php echo $this->getFormAction() ?>';
+
+    function doAjax() {
+        if (converterForm.validator.validate()) {
+            new Ajax.Updater(
+                { success:'formSuccess' }, postUrl, {
+                    method:       'get',
+                    parameters:   $(formId).serialize(true),
+                    asynchronous: true,
+                    evalScripts:  false,
+                    onComplete:   function(request, json) {
+                        Element.hide('formLoader');
+                        Element.show('formSuccess');
+                        $('formSuccess').innerHTML = json['result'];
+                        console.log(json);
+                    },
+                    onLoading:    function(request, json) {
+                        Element.show('formLoader');
+                    },
+                }
+            );
+        }
+    }
+
+    new Event.observe(formId, 'submit', function(e) {
+        e.stop();
+        doAjax();
+    });
+    //]]>
+
+</script>

@@ -1,0 +1,8 @@
+<layout>
+    <ml_converter_index_index>
+        <reference name='content'>
+            <block type='ml_converter/form' name='converter.form' template='ml/converter/form.phtml' />
+        </reference>
+    </ml_converter_index_index>
+
+</layout>
