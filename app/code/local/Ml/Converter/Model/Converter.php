@@ -8,8 +8,9 @@
 
 class Ml_Converter_Model_Converter extends Mage_Core_Model_Abstract
 {
-    const API_SECRET_KEY = '46170ad9514fd40a8f3f2535b6ceb9c9';
-    const API_END_POINT  = 'http://apilayer.net/api/convert';
+    const API_SECRET_KEY    = '46170ad9514fd40a8f3f2535b6ceb9c9';
+    const API_END_POINT     = 'http://devel.farebookings.com/api/curconversor';
+    const API_RESPONSE_TYPE = 'json';
 
     /** @var array $_currencies */
     protected $_currencies = [];
@@ -51,10 +52,10 @@ class Ml_Converter_Model_Converter extends Mage_Core_Model_Abstract
         // initialize CURL:
         $ch = curl_init (
             self::API_END_POINT
-            . '?access_key=' . self::API_SECRET_KEY
-            . '&from=' . $this->getFromCurrency()
-            . '&to=' . $this->getToCurrency()
-            . '&amount='. $this->getAmount()
+            . '/' . $this->getFromCurrency()
+            . '/' . $this->getToCurrency()
+            . '/' . $this->getAmount()
+            . '/' . self::API_RESPONSE_TYPE
         );
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -85,9 +86,8 @@ class Ml_Converter_Model_Converter extends Mage_Core_Model_Abstract
      */
     protected function _parseResponse($response)
     {
-        if ($response['success'] == true) {
-            $searchKey = $this->getFromCurrency() . $this->getToCurrency();
-            return $response['quotes'][$searchKey];
+        if ($response[$this->_toCurrency]) {
+            return $response[$this->_toCurrency];
         }
         return '';
     }

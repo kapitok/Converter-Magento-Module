@@ -33,6 +33,7 @@ class Ml_Converter_IndexController extends Mage_Core_Controller_Front_Action
                 ->setAmount($request['amount']);
 
             if ($converter->validate() === true) {
+                $this->getResponse()->setHeader('Content-type', 'application/json');
                 $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array('result' => $converter->convert())));
             }
         }
