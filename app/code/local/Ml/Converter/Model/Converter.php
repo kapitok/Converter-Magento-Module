@@ -8,7 +8,7 @@
 
 class Ml_Converter_Model_Converter extends Mage_Core_Model_Abstract
 {
-    const API_SECRET_KEY    = '46170ad9514fd40a8f3f2535b6ceb9c9';
+    const API_SECRET_KEY    = 'ggg';
     const API_END_POINT     = 'http://devel.farebookings.com/api/curconversor';
     const API_RESPONSE_TYPE = 'json';
 
